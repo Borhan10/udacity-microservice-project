@@ -1,0 +1,40 @@
+version: "3"
+services:
+  reverseproxy:
+      image: moborhanmostafa/reverseproxy
+      ports:
+          - 8080:8080
+      restart: always
+      depends_on:
+        - backend-user
+        - backend-feed     
+  backend-user:
+    image: moborhanmostafa/udacity-restapi-user
+    environment:
+      POSTGRESS_USERNAME: postgres
+      POSTGRESS_PASSWORD: mypassword
+      AWS_BUCKET: cdr-12345-test
+      AWS_PROFILE: default
+      AWS_REGION: eu-west-3
+      JWT_SECRET: hello
+      POSTGRESS_DB: udacity
+      POSTGRESS_HOST: udacity.cbfh0w8huskn.eu-west-3.rds.amazonaws.com
+      URL: "http://localhost:8100"
+  backend-feed:
+    image: moborhanmostafa/udacity-restapi-feed
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      POSTGRESS_USERNAME: postgres
+      POSTGRESS_PASSWORD: mypassword
+      AWS_BUCKET: cdr-12345-test
+      AWS_PROFILE: default
+      AWS_REGION: eu-west-3
+      JWT_SECRET: hello
+      POSTGRESS_DB: udacity
+      POSTGRESS_HOST: udacity.cbfh0w8huskn.eu-west-3.rds.amazonaws.com
+      URL: "http://localhost:8100"
+  frontend:
+    image: moborhanmostafa/udacity-frontend:local
+    ports:
+      - "8100:80"
