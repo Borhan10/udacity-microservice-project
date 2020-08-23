@@ -11,10 +11,10 @@ export const config = {
     "url": process.env.URL    
   },
   "prod": {
-    "username": "postgres",
-    "password": "mypassword",
-    "database": "udacity",
-    "host": "udacity.cbfh0w8huskn.eu-west-3.rds.amazonaws.com",
+    "username": "",
+    "password": "",
+    "database": "udagram_prod",
+    "host": "",
     "dialect": "postgres"
   },
   "jwt": {
